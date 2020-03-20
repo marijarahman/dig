@@ -4,11 +4,20 @@ import { Button, Comment, Divider, Form, Header, Message } from 'semantic-ui-rea
 
 import { getCommentsByProductId, getObject, setObject } from '../../helpers/Storage';
 
-const CommentText = ({text}) => (
+const getDate = (date) => {
+	// replace T with a space
+	// delete the seconds and everything after
+	return new Date(date).toString().replace(/T/, ' ').substr(0, 21);
+};
+
+const CommentText = ({text, date}) => (
 	<>
 		<Comment>
 			<Comment.Content>
 				<Comment.Text>{text}</Comment.Text>
+				<Comment.Metadata>
+					<div>Commented at {getDate(date)}</div>
+				</Comment.Metadata>
 			</Comment.Content>
 		</Comment>
 		<Divider/>
@@ -26,7 +35,6 @@ const CommentSection = ({ productId, ...props }) => {
 	const [comment, setComment] = useState('');
 	const [error, setError] = useState(false);
 
-
 	useEffect(() => {
 		const comments = getCommentsByProductId(productId);
 		setComments(comments);
@@ -41,6 +49,7 @@ const CommentSection = ({ productId, ...props }) => {
 				productId: productId,
 				text: comment,
 				id: v4(),
+				date: new Date(),
 			};
 
 			newComments.push(commentObject);
@@ -64,7 +73,7 @@ const CommentSection = ({ productId, ...props }) => {
 		<Comment.Group>
 			<Header as='h3' dividing>Comments</Header>
 
-			{comments && comments.map(c => <CommentText text={c.text} key={c.id}/> )}
+			{comments && comments.map(c => <CommentText text={c.text} date={c.date} key={c.id}/> )}
 
 			<Form reply onSubmit={onSubmitHandler}>
 				<Form.TextArea onChange={onChangeHandler} value={comment} error={error}/>
