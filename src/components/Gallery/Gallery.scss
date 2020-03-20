@@ -1,0 +1,13 @@
+// semantic ui overrides
+
+.ui.images .image, .ui.images>img.gallery__thumb-image {
+    margin-right: .8rem;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.ui.modal>.image.content {
+   justify-content: center;
+    align-items: center;
+}

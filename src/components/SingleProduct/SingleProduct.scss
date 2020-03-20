@@ -1,0 +1,19 @@
+// semantic ui overrides
+
+$white: #ffffff;
+$image-width: 16.5rem;
+
+.ui.card>.image, .ui.cards>.card>.image {
+    height: $image-width;
+    width: 100%;
+    overflow: hidden;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    background: $white !important;
+}
+
+.ui.card>.image:not(.ui)>img, .ui.cards>.card>.image:not(.ui)>img {
+    border: none;
+    width: 50%;
+}
