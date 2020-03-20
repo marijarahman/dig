@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { Button, Comment, Divider, Form, Header } from 'semantic-ui-react';
+import { Button, Comment, Divider, Form, Header, Message } from 'semantic-ui-react';
 
 import { getCommentsByProductId, getObject, setObject } from '../../helpers/Storage';
 
@@ -15,9 +15,17 @@ const CommentText = ({text}) => (
 	</>
 );
 
+const ValidationMessage = () => (
+	<Message negative size='tiny'>
+		<Message.Header>This field is required</Message.Header>
+	</Message>
+)
+
 const CommentSection = ({ productId, ...props }) => {
 	const [comments, setComments] = useState(null);
 	const [comment, setComment] = useState('');
+	const [error, setError] = useState(false);
+
 
 	useEffect(() => {
 		const comments = getCommentsByProductId(productId);
@@ -40,10 +48,17 @@ const CommentSection = ({ productId, ...props }) => {
 
 			setComment('');
 			setComments(getCommentsByProductId(productId));
+		} else {
+			setError(true);
 		}
 	};
 
-	const onChangeHandler = (e, {value}) => setComment(value);
+	const onChangeHandler = (e, {value}) => {
+		if (value.length === 1) {
+			setError(false);
+		}
+		setComment(value)
+	};
 
 	return (
 		<Comment.Group>
@@ -52,7 +67,8 @@ const CommentSection = ({ productId, ...props }) => {
 			{comments && comments.map(c => <CommentText text={c.text} key={c.id}/> )}
 
 			<Form reply onSubmit={onSubmitHandler}>
-				<Form.TextArea onChange={onChangeHandler} value={comment}/>
+				<Form.TextArea onChange={onChangeHandler} value={comment} error={error}/>
+				{ error && <ValidationMessage/>}
 				<Button content='Add Comment' labelPosition='left' icon='edit' primary />
 			</Form>
 		</Comment.Group>

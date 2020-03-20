@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import {Item, Button, Icon, Header, Segment, Label} from 'semantic-ui-react';
+import { Item, Button, Icon, Header, Segment, Label } from 'semantic-ui-react';
 
 import CommentSection from '../../components/CommentSection';
 import Gallery from '../../components/Gallery';
@@ -28,7 +28,7 @@ const Product = (props) => {
 			</Button>
 			<MyContext.Consumer>
 				{({singleProduct}) => (
-					<Segment basic padded={'very'}>
+					<Segment basic padded='very'>
 						{singleProduct && (
 							<>
 								<Item.Group>
